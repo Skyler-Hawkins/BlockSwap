@@ -24,7 +24,7 @@ const NavBar = () => {
         </NavElement>
 
         <NavElement>
-            <StyledLink href="/">About</StyledLink>
+            <StyledLink href="/about">About</StyledLink>
         </NavElement>
         <NavElement>
             <StyledLink href="/swap">Swap</StyledLink>
@@ -82,7 +82,7 @@ const NavElementImage = styled.button`
   cursor: pointer;
   font-size: 18px;
   border-radius: 50%;
-  padding: 1.0em;
+  padding: .3em;
   background: #e8e8e8;
   border: 1px solid #e8e8e8;
 //   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
@@ -142,14 +142,16 @@ const NavElement = styled.button`
   justify-content: center;
   color: #090909;
   // padding: 1.0em 1.7em;
-  padding: 1.7vw;
+  padding: .4vw;
   margin: 1vw;
+  
   
   cursor: pointer;
   font-size: 18px;
   border-radius: 0.5em;
-  background: #e8e8e8;
-//   width: 10%;
+  // background: #e8e8e8;
+  background-color: inherit;
+  color: grey;
   border: 1px solid #e8e8e8;
 //   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
   font-size: 1.5vw;
@@ -205,7 +207,9 @@ const Holder = styled.div`
     display:flex;
     // width: 50%;
     width: 100%;
-    background-color: #1F2937; 
+    background-color: #1A1B1F; 
+    height: 30px;
+
     
     justify-content: space-between;
    

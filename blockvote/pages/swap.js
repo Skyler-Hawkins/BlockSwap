@@ -4,16 +4,18 @@ import styled from "styled-components";
 export default function swap (){
     // Add your code here
     return (
+      <>
+      <NavBar />
       <MainContainer>
         <TitleContainer>SWAP ANYTIME, ANYWHERE</TitleContainer>
-       <SwapContainer>
+        <SwapContainer>
           <YourToken>
             <TokenSubdivider>
               <TextField>You Pay</TextField>
               <InputField placeholder="0"></InputField>
-              <br/>
+              <br />
             </TokenSubdivider>
-            <SelectToken text = "stuff"/>
+            <SelectToken text="stuff" />
 
           </YourToken>
           {/* <TokenSelectBox>Select Token</TokenSelectBox> */}
@@ -21,16 +23,16 @@ export default function swap (){
             <TokenSubdivider>
               <TextField>You receive</TextField>
               <InputField placeholder="0"></InputField>
-              <br/>
+              <br />
             </TokenSubdivider>
-            <SelectToken text = "stuff"/>
+            <SelectToken />
           </TokenToReceive>
 
           <ConnectWallet>Connect Wallet</ConnectWallet>
 
-       </SwapContainer>
-       <div style={{height: "100px"}}></div>
-       </MainContainer>
+        </SwapContainer>
+        <div style={{ height: "100px" }}></div>
+      </MainContainer></>
     );
 }
 const MainContainer = styled.div`
@@ -43,6 +45,7 @@ const MainContainer = styled.div`
   background-color: grey;
   background-color: rgba(17, 24, 39);
   backdrop-filter: blur(5px);
+  color: white;
 
 `;
 

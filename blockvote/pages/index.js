@@ -21,6 +21,7 @@ const Home = () =>  {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
+      <Background/>
       <MainContainer>
         
       <TitleBanner>Welcome to BlockSwap</TitleBanner>
@@ -30,6 +31,9 @@ const Home = () =>  {
 
 
       </DescriptionText>
+      <LaunchButton>
+        <StyledLink href="/swap">Launch App</StyledLink>
+      </LaunchButton>
 
       </MainContainer>
 
@@ -37,27 +41,76 @@ const Home = () =>  {
   );
 }
 
+const StyledLink = styled.a`
+  text-decoration: none;
+  color: inherit;
+`;
+const Background = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url('cryptobackground.png');
+  background-size: 100% 100%;
+
+  background-color: rgba(17, 24, 39);
+  background-position: center;
+  filter: blur(5px);
+  z-index: -1;
+  background-clip: padding-box;
+  `;
 
 const MainContainer = styled.div`
-width: 100%;
-height: 100vh;
+  width: 100%;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  align-items: left;
+  justify-content: center;
+  color: white;
+  background-color: rgba(17, 24, 39, 0.5); // Add transparency to see the blurred background
+  font-family: 'Inter', sans-serif;
+  font-weight: 100;
+  position: relative;
 
-display: flex;
-flex-direction: column;
-font-size: 1rem;
-align-items: center; // this one controls the vertical alignment
-justify-content: center; // this one controls the horizontal alignment
-// align with space between
-color: white;
-background-color: rgba(17, 24, 39);
 `;
+
+
 const TitleBanner = styled.div`
+width: 98%;
+margin-left: 2vw;
 font-size: 2rem;
+text-align: left;
+margin-bottom: 20px;
 `;
 
 const DescriptionText = styled.div`
-
-
+width: 98%;
+margin-left: 2vw;
+text-align: left;
+// padding: 20px;
+margin-bottom: 20px;
 `;
+
+const LaunchButton = styled.div`
+background-color: #C31068;
+border: 1px solid white;
+border-radius: 8px;
+color: white;
+font-size: 12px;
+font-family: 'Inter', sans-serif;
+padding: 5px;
+margin-left: 2vw;
+font-weight: 100;
+//removing the default button styles
+width: 65px;
+cursor: pointer;
+transition: all 0.3s ease;
+align-content: center;
+justify-content: center;
+`
+
 
 export default Home;
