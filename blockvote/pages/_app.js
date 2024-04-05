@@ -1,3 +1,4 @@
+import Head from "next/head";
 import "@/styles/globals.css";
 import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`

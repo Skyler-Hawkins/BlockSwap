@@ -1,11 +1,25 @@
 import NavBar from "@/components/NavBar";
 import styled from "styled-components";
+import CryptoSelect from "@/components/CryptoSelect";
+import { useState } from 'react';
 
-export default function swap (){
+function Swap (){
     // Add your code here
+    const [hasConnectedWallet, setHasConnectedWallet] = useState(false); 
+    const handleSwap = () => {
+      // Here, also handling the user has not connected their wallet
+      if(hasConnectedWallet == false){
+        
+      }
+      else {
+        // Here, handling the user has connected their wallet
+      }
+
+    }
     return (
-      <>
+      <TotalParent>
       <NavBar />
+      <Background/>
       <MainContainer>
         <TitleContainer>SWAP ANYTIME, ANYWHERE</TitleContainer>
         <SwapContainer>
@@ -15,7 +29,9 @@ export default function swap (){
               <InputField placeholder="0"></InputField>
               <br />
             </TokenSubdivider>
-            <SelectToken text="stuff" />
+            <SelectToken> 
+              <CryptoSelect/> 
+            </SelectToken>
 
           </YourToken>
           {/* <TokenSelectBox>Select Token</TokenSelectBox> */}
@@ -25,36 +41,73 @@ export default function swap (){
               <InputField placeholder="0"></InputField>
               <br />
             </TokenSubdivider>
-            <SelectToken />
+            <SelectToken> 
+              <CryptoSelect/> 
+            </SelectToken>
           </TokenToReceive>
 
-          <ConnectWallet>Connect Wallet</ConnectWallet>
+          <ConnectWallet onClick = {() => handleSwap()}>Connect Wallet</ConnectWallet>
 
         </SwapContainer>
         <div style={{ height: "100px" }}></div>
-      </MainContainer></>
+      </MainContainer>
+      </TotalParent>
     );
 }
+
+const TotalParent = styled.div`
+overflow-x: hidden;
+
+overflow-y: hidden;
+position: relative;
+`
 const MainContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 96vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: grey;
-  background-color: rgba(17, 24, 39);
-  backdrop-filter: blur(5px);
+  // background-color: rgba(17, 24, 39);
+  // backdrop-filter: blur(5px);
   color: white;
 
+  font-size: 1rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+
+  position: relative;
+
 `;
+const Background = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+width: 120%;
+margin-left: -10%;
+margin-right: -10%;
+// margin-top: -10%;
+// margin-bottom: -10%;
+height: 140vh;
+background-image: url('polkadots.avif');
+background-size: 100% 100%;
+
+// background-color: rgba(17, 24, 39);
+background-position: center;
+filter: blur(20px);
+z-index: -1;
+overflow-x: hidden;
+overflow-y: hidden;
+`
+
 
 const TitleContainer = styled.div`
 font-size: 2rem;
 margin-bottom: 50px;
 `
 const SwapContainer = styled.div`
-  width: 34%;
+  width: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +122,7 @@ const SwapContainer = styled.div`
 //plan: On click of this button, a menu pops up with a list of choices, temp will be just empty coins
 const YourToken = styled.div`
   width: 100%;
-  height: 80px;
+  height: 15vh;
   border: 1px solid #000;
   margin-bottom: 2px;
   border-radius: 10px;
@@ -95,21 +148,22 @@ width: 30%;
 display: flex; // Add this line
 justify-content: center; // Add this line
 align-items: center; // Add this line
-height: 20%;
-margin-right: 3px;
+height: 40%;
+margin-right: 12px;
 border-radius: 8px;
 border: none;
-background-color: black;
+// background-color: black;
 
 `
 
 const TextField = styled.div`
-font-size: 12px;
+font-size: 1em;
 letter-spacing: -.4px;
-color: white;
+color: rgb(155, 155, 155);
 margin-top: 5px;
 font-family: 'Basel', sans-serif;
 font-weight: 500;
+
 
 `
 const InputField = styled.input`
@@ -137,7 +191,7 @@ const TokenSelectBox = styled.button`
 
 const TokenToReceive = styled.div`
 width: 100%;
-height: 80px;
+height: 15vh;
 border: 1px solid #000;
 margin-bottom: 2px;
 border-radius: 10px;
@@ -154,11 +208,17 @@ justify-content: center;
 
 const ConnectWallet = styled.button`
   width: 100%;
-  height: 40px;
+  height: 7vh;
   border: 1px solid #000;
   border-radius: 10px;
   background-color: #311C31;
   color: #F476FA;
+  font-family: 'Basel', sans-serif;
+  font-weight: 550;
+  font-size: 1.2em;
+  &:hover {
+    background-color: #411D41; // Slightly lighter color for highlight effect
+  }
 `;
 
-
+export default Swap;
