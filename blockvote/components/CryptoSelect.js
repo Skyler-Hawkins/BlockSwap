@@ -31,8 +31,10 @@ export default function CryptoSelect() {
 
                         <ModalTitle>SELECT TOKEN</ModalTitle>
                         <ModalText>
-                            <Token onClick={() => HandleClick('bitcoin', 'btc')}>Bitcoin <CryptoImageModal src = "https://cryptologos.cc/logos/bitcoin-btc-logo.png"/></Token>
-                            <Token onClick={() => HandleClick('ethereum', 'eth')}>Ethereum <CryptoImageModal src = "https://cryptologos.cc/logos/ethereum-eth-logo.png"/></Token>
+                            <Token tabIndex="0" onClick={() => HandleClick('bitcoin', 'btc')}>BTC <CryptoImageModal src = "https://cryptologos.cc/logos/bitcoin-btc-logo.png"/></Token>
+                            <Token tabIndex="0" onClick={() => HandleClick('ethereum', 'eth')}>ETH <CryptoImageModal src = "https://cryptologos.cc/logos/ethereum-eth-logo.png"/></Token>
+                            <Token tabIndex="0" onClick={() => HandleClick('bnb', 'bnb')}>BNB <CryptoImageModal src = "https://cryptologos.cc/logos/bnb-bnb-logo.png"/></Token>
+
                             {/* Add more tokens as needed */}
                         </ModalText>
                         <br/>
@@ -59,6 +61,12 @@ const CryptoContainer = styled.div`
     text-align: center; // Center the text
     padding: 3px; // Adjust as needed
     border: 1px solid white; // Adjust as needed
+
+    &:hover {
+        box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px white;
+        transform: translateY(-0.1em);
+    }
+
 `;
 
 const CryptoImage = styled.img`
@@ -94,7 +102,7 @@ const Modal = styled.div`
     align-items: center;
 `;
 const ModalTitle = styled.div`
-    font-size: 32px;
+    font-size: 28px;
     color: white;
     font-weight: 800;
 `
@@ -110,9 +118,10 @@ const ModalText= styled.div`
 
 
 const ModalContent = styled.div`
-    background-color: rgb(40, 40, 40);  
+    background-color: rgba(17, 24, 39);
     width: 250px;
     height: 370px;
+    
     padding: 20px;
     border-radius: 10px;
     position: relative;
@@ -120,27 +129,56 @@ const ModalContent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border: 1px solid white;
+    font-family: 'Basel', sans-serif;
+
 `;
 
 const CloseButton = styled.button`
     position: absolute;
     top: 10px;
     right: 10px;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease-in-out;
+    padding: 2px;
+    &:hover {
+        border: 1px solid white;
+        border-radius: 2px;
+    }
+
+    cursor: pointer;
+    
 `;
 
 const Token = styled.div`
-    cursor: pointer;
-    margin-bottom: 20px;
-    // margin: 10px 0;
-    display: flex;
-    width: 50%;
-    padding: 3px;
-    align-items: center;
-    border-radius: 10px;
-    font-size: 25px;
-    justify-content: center;
-    //margin: 10px;
-    border: 1px solid white;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: flex;
+  width: 50%;
+  padding: 3px;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 25px;
+  justify-content: center;
+  border: 1px solid white;
+  transition: box-shadow 0.1s ease-in-out; // Add this line
+
+  &:hover {
+    box-shadow: 0px 0px 7px 2px rgba(255, 255, 255, 0.4); // Add this line
+    background-color: purple;
+
+}
+  &:active{
+    background-color: purple;
+  
+  }
+  &:focus {
+    background-color: purple;
+    outline: none; // Add this line to remove the default focus outline
+  }
 `;
 // This will be a dropdown menu that will allow the user to select the cryptocurrency they want to receive.
 // The dropdown menu will have a list of cryptocurrencies that the user can choose from.

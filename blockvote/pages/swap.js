@@ -57,9 +57,9 @@ function Swap (){
 
 const TotalParent = styled.div`
 overflow-x: hidden;
-
 overflow-y: hidden;
 position: relative;
+height: 100vh;
 `
 const MainContainer = styled.div`
   width: 100%;
@@ -169,11 +169,17 @@ font-weight: 500;
 const InputField = styled.input`
   margin-top: 10px;
   width: 50%;
+  padding: 5px;
   border: none;
   border-radius: 5px; // Add this line
   color: grey; // Add this line
   background-color: inherit; // Add this line
   font-size: 20px;
+  &:hover {
+    box-shadow: 0 0 5px white; // Add this line
+  }
+
+  
 `;
 // NOW whithin the token panel, there is a text that says 'you pay' in the top left corner, a button that says 'select token'
 // in the middle-right side, and an input field that says 0, and will eventually describe how much of the token you want to swap
