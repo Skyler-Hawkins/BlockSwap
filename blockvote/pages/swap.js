@@ -2,6 +2,9 @@ import NavBar from "@/components/NavBar";
 import styled from "styled-components";
 import CryptoSelect from "@/components/CryptoSelect";
 import { useState } from 'react';
+import {useStorage, useSigner} from '@thirdweb-dev/react';
+import { ConnectWallet } from "@thirdweb-dev/react";
+
 
 function Swap (){
     // Add your code here

@@ -126,7 +126,8 @@ const MainContainer = styled.div`
   align-items: left;
   justify-content: space-between;
   color: white;
-  background-color: rgb(40, 40, 40);  font-family: 'Inter', sans-serif;
+  background-color: rgb(40, 40, 40);  
+  font-family: 'Inter', sans-serif;
   font-weight: 100;
   position: relative;
 
