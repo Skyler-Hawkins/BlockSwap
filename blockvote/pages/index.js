@@ -8,7 +8,6 @@ import React from "react";
 import styled from "styled-components";
 
 import NavBar from "@/components/NavBar";
-
 // const inter = Inter({ subsets: ["latin"] });
 
 const Home = () =>  {
@@ -23,7 +22,7 @@ const Home = () =>  {
       <Background/>
       <MainContainer>
         
-      <TitleBanner>BLOCKSWAP PROTOCOL </TitleBanner>
+      <TitleBanner>BLOCKSWAP PROTOCOL:</TitleBanner>
       <DescriptionText>
         Join the emergeing movement of DeFi now!
         Access thousands of tokens and vote, all from your coin wallet.

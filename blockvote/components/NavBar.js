@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import link from 'next/link'
+import {ConnectWallet} from '@thirdweb-dev/react'
 
 
 
@@ -10,32 +11,39 @@ const NavBar = () => {
   return (
     <Container>
     <Holder>
-  
-    <LogoBox>
-        <NavElementImage> 
-            <NavHomeButton> <StyledLink href="/"><ImgContainerLogo><img src="Untitled.png" alt="" /> </ImgContainerLogo></StyledLink> </NavHomeButton>
-            
-        </NavElementImage>
-    </LogoBox>
-    <br/>
-    <NavButtonHolder>
-        <NavElement>
-            <StyledLink href="/">Home</StyledLink>
-        </NavElement>
+    
+      <LogoBox>
+          <NavElementImage> 
+              <NavHomeButton> <StyledLink href="/"><ImgContainerLogo><img src="Untitled.png" alt="" /> </ImgContainerLogo></StyledLink> </NavHomeButton>
+              
+          </NavElementImage>
+      </LogoBox>
+      
+      <NavButtonHolder>
+          <NavElement>
+              <StyledLink href="/">Home</StyledLink>
+          </NavElement>
 
-        <NavElement>
-            <StyledLink href="/about">FAQ</StyledLink>
-        </NavElement>
-        <NavElement>
-            <StyledLink href="/swap">Swap</StyledLink>
-        </NavElement>
-        {/* <NavElement>
-            <StyledLink href="/">Explore</StyledLink>
-        </NavElement> */}
-        <NavElement>
-            <StyledLink href="/">Connect Wallet</StyledLink>
-        </NavElement>
-    </NavButtonHolder>
+          <NavElement>
+              <StyledLink href="/about">FAQ</StyledLink>
+          </NavElement>
+          <NavElement>
+              <StyledLink href="/swap">Swap</StyledLink>
+          </NavElement>
+          <NavElement>
+              <StyledLink href="/">Explore</StyledLink>
+          </NavElement> 
+          <NavElementConnect>Connect Wallet</NavElementConnect>
+          {/* <ConnectWallet
+            // client={clien?t}
+            // wallets={wallets}
+            theme={"dark"}
+            connectModal={{ size: "wide" }}
+            btnTitle = "Connect ze Wallet"
+
+          /> */}
+        
+      </NavButtonHolder>
     </Holder>
     </Container>
   )
@@ -94,35 +102,9 @@ const NavElementImage = styled.button`
 `;
 
 
-// const NavElement = styled.button`
-//   display: inline-block;
-//   transition: all 0.2s ease-in;
-//   position: relative;
-//   overflow: hidden;
-//   align-items: center;
-//   justify-content: center;
-//   color: #090909;
-//   // padding: 1.0em 1.7em;
-//   padding: .4vw;
-//   margin: 1vw;
 
-  
-  
-//   cursor: pointer;
-//   font-size: 18px;
-//   border-radius: 0.5em;
-//   // background: #e8e8e8;
-//   background-color: inherit;
-//   color: grey;
-//   border: none;
-//   // border: 1px solid #e8e8e8;
-//   //   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-//   // font-size: 1.5vw;
 
-//   :hover{
-//     color: white;
-//   }
-// `;
+
 
 const moveBg = keyframes`
   0% {
@@ -217,6 +199,91 @@ const NavElement = styled.button`
     transition: 200ms;
   }
 `;
+const NavElementConnect = styled(ConnectWallet)`
+  // width: 150%;
+  // height: 90%;
+  display: flex;
+  transition: all 0.2s ease-in;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  color: #090909;
+  padding: .6vw;
+  padding-left: .1vw;
+  margin: 1vw;
+  width: auto; // Adjust this value to fit your needs
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 0.5em;
+  background-color: inherit;
+  color: grey;
+  border: none;
+  
+
+  :hover{
+    color: white;
+  }
+
+  --border-color: linear-gradient(-45deg, #ffae00, #7e03aa, #00fffb);
+  --border-width: 0.125em;
+  --curve-size: 0.5em;
+  --blur: 30px;
+  --bg: #080312;
+  --color: #afffff;
+  // text-transform: uppercase;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.6);
+  clip-path: polygon(
+    0% var(--curve-size),
+    var(--curve-size) 0,
+    100% 0,
+    100% calc(100% - var(--curve-size)),
+    calc(100% - var(--curve-size)) 100%,
+    0 100%
+  );
+
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  &::before {
+    background: var(--border-color);
+    background-size: 300% 300%;
+    animation: ${moveBg} 5s ease infinite;
+    z-index: -2;
+  }
+
+  &::after {
+    background: var(--bg);
+    z-index: -1;
+    clip-path: polygon(
+      var(--border-width) calc(var(--curve-size) + var(--border-width) * 0.5),
+      calc(var(--curve-size) + var(--border-width) * 0.5) var(--border-width),
+      calc(100% - var(--border-width)) var(--border-width),
+      calc(100% - var(--border-width)) calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)) calc(100% - var(--border-width)),
+      var(--border-width) calc(100% - var(--border-width))
+    );
+    transition: clip-path 500ms;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    clip-path: polygon(
+      calc(100% - var(--border-width)) calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+      calc(100% - var(--border-width)) var(--border-width),
+      calc(100% - var(--border-width)) var(--border-width),
+      calc(100% - var(--border-width)) calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)) calc(100% - var(--border-width)),
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)) calc(100% - var(--border-width))
+    );
+    transition: 200ms;
+  }
+`;
+
 
 const Holder = styled.div`
     display:flex;
@@ -240,8 +307,10 @@ const LogoBox = styled.div`
 const NavButtonHolder = styled.div`
 display:flex;
 // justify-content: space-between;
+// justify-content: space-evenly;
 align-items: center;
 gap: 2vw;
+// width: 60%
 `
 
 // const NavElement = styled.button`

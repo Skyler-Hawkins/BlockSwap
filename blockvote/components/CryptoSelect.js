@@ -6,16 +6,16 @@ import { useState } from 'react';
             <CryptoName>BTC</CryptoName>
         </CryptoContainer> */
 
-export default function CryptoSelect() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedCoin, setSelectedCoin] = useState("Select a coin");
-    const [coinimgurl, setCoinimgurl] = useState("/MyFavicon.png");
-    const HandleClick = (coinName, coinTicker) => {
-        let coinimgurl = "https://cryptologos.cc/logos/" + coinName + "-" + coinTicker + "-logo.png";
-        setSelectedCoin((coinTicker.toUpperCase()));
-        setCoinimgurl(coinimgurl);
+export default function CryptoSelect({ id, isOpen, setIsOpen, selectedCoin, setSelectedCoin, coinimgurl, setCoinimgurl, HandleClick }) {
+    // const [isOpen, setIsOpen] = useState(false);
+    // const [selectedCoin, setSelectedCoin] = useState("Select a coin");
+    // const [coinimgurl, setCoinimgurl] = useState("/MyFavicon.png");
+    // const HandleClick = (coinName, coinTicker) => {
+    //     let coinimgurl = "https://cryptologos.cc/logos/" + coinName + "-" + coinTicker + "-logo.png";
+    //     setSelectedCoin((coinTicker.toUpperCase()));
+    //     setCoinimgurl(coinimgurl);
         
-    }
+    // }
 
     return (
         <MainContainer>
@@ -31,9 +31,9 @@ export default function CryptoSelect() {
 
                         <ModalTitle>SELECT TOKEN</ModalTitle>
                         <ModalText>
-                            <Token tabIndex="0" onClick={() => HandleClick('bitcoin', 'btc')}>BTC <CryptoImageModal src = "https://cryptologos.cc/logos/bitcoin-btc-logo.png"/></Token>
-                            <Token tabIndex="0" onClick={() => HandleClick('ethereum', 'eth')}>ETH <CryptoImageModal src = "https://cryptologos.cc/logos/ethereum-eth-logo.png"/></Token>
-                            <Token tabIndex="0" onClick={() => HandleClick('bnb', 'bnb')}>BNB <CryptoImageModal src = "https://cryptologos.cc/logos/bnb-bnb-logo.png"/></Token>
+                            {/* <Token tabIndex="0" onClick={() => HandleClick('bitcoin', 'btc')}>BTC <CryptoImageModal src = "https://cryptologos.cc/logos/bitcoin-btc-logo.png"/></Token> */}
+                            <Token tabIndex="0" onClick={() => HandleClick('ethereum', 'eth', id)}>ETH <CryptoImageModal src = "https://cryptologos.cc/logos/ethereum-eth-logo.png"/></Token>
+                            <Token tabIndex="0" onClick={() => HandleClick('bnb', 'bnb', id)}>BNB <CryptoImageModal src = "https://cryptologos.cc/logos/bnb-bnb-logo.png"/></Token>
 
                             {/* Add more tokens as needed */}
                         </ModalText>

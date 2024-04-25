@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components';
 import {
   ThirdwebProvider,
   metamaskWallet,
-  coinbaseWallet,
   walletConnect,
 } from "@thirdweb-dev/react";
 
