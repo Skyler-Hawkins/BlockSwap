@@ -1,19 +1,24 @@
 import NavBar from "@/components/NavBar";
 import styled from "styled-components";
 import CryptoSelect from "@/components/CryptoSelect";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 // import {useStorage, useSigner, Web3Button} from '@thirdweb-dev/react';
 import { ConnectWallet } from "@thirdweb-dev/react";
 import MockWBNBABI from "@/contracts/abi/MockWBNBABI.json";
 import MockWETHABI from "@/contracts/abi/MockWETHABI.json";
-import BlockSwaapABI from "@/contracts/abi/BlockSwapABI.json";
+import BlockSwapABI from "@/contracts/abi/BlockSwapABI.json";
 import {useAddress} from "@thirdweb-dev/react";
 import web3 from 'web3';
 import {ethers} from 'ethers';
+import {useSigner} from '@thirdweb-dev/react';
+// import {QueryClient, QueryClientProvider} from 'react-query';
+// import {Web3Button} from '@thirdweb-dev/react';
+
 
 function Swap (){
+  const signer = useSigner();
+  const [errorMessage, setErrorMessage] = useState("Any Swap Issues Display Here");
     // Add your code here
-    const [hasConnectedWallet, setHasConnectedWallet] = useState(true); //////MAKE SURE TO CHANGE THIS LOOK AT ME HEY HEY HEY SHOULD BE FALSE LOOK A ME DONT FORGET 
     // FROM CRYPTOSELECT.JS /////////////////////////////////////////////////////////////////
     const [isOpen1, setIsOpen1] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
@@ -25,19 +30,52 @@ function Swap (){
     const [coinimgurl2, setCoinimgurl2] = useState("/MyFavicon.png");
 
     const [coinSent, setCoinSent] = useState('0');
+    const [coinReceived, setCoinReceived] = useState('0');
 
-
-    
     const BNBContract = new ethers.Contract('0x4f8EB94683dFF01b7A45f02936B32841E433701e', MockWBNBABI);
+    const BNBContractWithSigner = BNBContract.connect(signer);
+    console.log("BNBContractWithSigner: " + BNBContractWithSigner)
     const ETHContract = new ethers.Contract('0x37390173dca0784f76a46564cf66cb0fea35ae82', MockWETHABI);
-    const BlockSwapContract = new ethers.Contract('0x91b3E9aD5e6F5ac39d958A7Dff32DE0c7E029B86',BlockSwaapABI);
+    const ETHContractWithSigner = ETHContract.connect(signer);
+    const BlockSwapContract = new ethers.Contract('0x91b3E9aD5e6F5ac39d958A7Dff32DE0c7E029B86',BlockSwapABI);
+    const BlockSwapContractWithSigner = BlockSwapContract.connect(signer);
 
     // Also Need to pull wallet address from the connect wallet button
-    const userWalletAddress = useAddress();
     // to do: deploy contracts on actual BNB testnet
     // then, give the above commented out contract declarations the actual addresses of the deployed contracts
     // then fix up the if statements below to accurately call the functions. 
 
+
+    
+    useEffect (() => {
+      // when this changes, change the coinReceived value
+      if(BlockSwapContractWithSigner && signer && ETHContractWithSigner && BNBContractWithSigner && coinSent && selectedCoin1 == 'BNB' && selectedCoin2 == 'ETH'){
+        swapBNBToETH();
+        setCoinReceived();
+      console.log("coinReveived: " + coinReceived)
+    }
+    }, [coinSent]);
+    useEffect (() => {
+      // when this changes, change the coinReceived value
+      console.log("coinSent: " + coinSent)
+      console.log("selectedCoin1: " + selectedCoin1)
+      console.log("selectedCoin2: " + selectedCoin2)
+      console.log("BNBContractWithSigner: " + BNBContractWithSigner)
+      console.log("ETHContractWithSigner: " + ETHContractWithSigner)
+      console.log("BlockSwapContractWithSigner: " + BlockSwapContractWithSigner)
+      console.log("signer: " + signer)
+
+      if(BlockSwapContractWithSigner && signer && ETHContractWithSigner && BNBContractWithSigner && coinSent && selectedCoin1 == 'ETH' && selectedCoin2 == 'BNB'){
+        swapETHToBNB();
+        setCoinReceived();
+      console.log("coinReveived: " + coinReceived)
+    }
+    }, [coinSent]);
+
+
+    const displayErrorMessage = (message) => {
+      setErrorMessage(message);
+    }
 
 
     const pullText = (event) => {
@@ -62,52 +100,185 @@ function Swap (){
         
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
-    const handleSwap = () => {
-      // Here, also handling the user has not connected their wallet
-      if(hasConnectedWallet == false){
-        console.log("Please connect your wallet to swap tokens")
-      }
-      else {
-        // Here, handling the user has connected their wallet
-        if(selectedCoin1 == "Select a coin" || selectedCoin2 == "Select a coin"){
-          console.log("Please select a coin to swap")
-          // alert("Please select a coin to swap");
-          
-        }
-        else{
-          // find which direction the person is swapping in
-          if (selectedCoin1 == selectedCoin2){
-            console.log("You cannot swap the same token with itself")
-          }
-          else{
-          // all conditions satisfied. Now we can ATTEMPT to swap the tokens
-          // would need to read contract to make sure we have valid conditions for swap in THAT regard too, to be done
-          // later
-          // *****HERE GOES THE ABOVE DESCRIBED STUFF*****
-          //
-          // *****HERE GOES THE ABOVE DESCRIBED STUFF*****
-          // After checking that set the direction of the swap
-          if (selectedCoin1 == 'ETH' && selectedCoin2 == 'BNB'){
-            // Swap ETH to BNB
-            // This is where the contract call would go
-            console.log("Swapping ETH to BNB")
-            console.log("amount of coin sent: " + coinSent)
-            BlockSwapContract.swapETHToBNB(coinSent);
+  const swapBNBToETH = async () => {
+    // Here I will do a hypothetical calculation to show how much BNB 
+    // the user will receive. Need to get totalLiquidity of BNB and ETH, then do the internal calculation.
+    if(BlockSwapContractWithSigner){
+      console.log("coinSent: " + coinSent)
+      const totalBNBLiquidity = await BlockSwapContractWithSigner.totalLiquidityBNB();
+      console.log("totalBNBLiquidity: " + totalBNBLiquidity);
+      const totalETHLiquidity = await BlockSwapContractWithSigner.totalLiquidityETH();
+      console.log("totalETHLiquidity: " + totalETHLiquidity);
 
+      const amountBNB = parseInt(coinSent);
+  
+      const x = totalBNBLiquidity;
+      const y = totalETHLiquidity;
+      const dx = amountBNB;
+      const k = x * y;
+      const newReserveBNB = x + dx;
+      const newReserveETH = k / newReserveBNB;
+      const dy = y - newReserveETH;
+  
+      console.log("Hypothetical conversion below:");
+      console.log("Amount BNB: " + amountBNB);
+      console.log("Amount ETH: " + dy);
+  
+      setCoinReceived(dy);
+    }
+    else{
+      console.log("BlockSwapContract not found")
+    }    
+  }
+  const swapETHToBNB = async () => {
+    // Here I will do a hypothetical calculation to show how much ETH 
+    // the user will receive. Need to get totalLiquidity of BNB and ETH, then do the internal calculation.
+    console.log("coinSent: " + coinSent)
+    const totalBNBLiquidity = await BlockSwapContractWithSigner.totalLiquidityBNB();
+    const totalETHLiquidity = await BlockSwapContractWithSigner.totalLiquidityETH();
+    const amountETH = parseInt(coinSent);
+
+
+    const x = totalBNBLiquidity;
+    const y = totalETHLiquidity;
+    const dy = amountETH;
+    const k = x * y;
+    const newReserveETH = y + dy;
+    const newReserveBNB = k / newReserveETH;
+    const dx = x - newReserveBNB;
+
+    console.log("Hypothetical conversion:");
+    console.log("Amount ETH: " + amountETH);
+    console.log("Amount BNB: " + dx);
+    setCoinReceived(dx);
+  }
+ 
+
+
+const handleSwap = async () => {
+  const address = await signer.getAddress();
+
+  // Need to add .approve calls for the two tokens at the current address
+  // Here, also handling the user has not connected their wallet
+
+
+  // if allowance is less than needed
+  if(BlockSwapContractWithSigner){
+
+
+
+
+
+  
+  const totalBNBLiquidity = await BlockSwapContractWithSigner.totalLiquidityBNB();
+  const totalETHLiquidity = await BlockSwapContractWithSigner.totalLiquidityETH();
+
+  const bnballowance = await BNBContractWithSigner.allowance(address, '0x91b3E9aD5e6F5ac39d958A7Dff32DE0c7E029B86');
+  const ethallowance = await ETHContractWithSigner.allowance(address, '0x91b3E9aD5e6F5ac39d958A7Dff32DE0c7E029B86');
+
+
+  console.log("BNB allowance: " + bnballowance);
+  console.log("ETH allowance: " + ethallowance);
+  if(bnballowance < parseInt(coinSent)){
+    BNBContractWithSigner.approve(address, parseInt(coinSent));
+  }
+  if(ethallowance < parseInt(coinSent))
+  {
+    ETHContractWithSigner.approve(address, parseInt(coinSent));
+  }
+
+  // Minting the wallet my token just so that anyone can swap it
+  await BNBContractWithSigner.mint(parseInt(coinSent),address);
+  await ETHContractWithSigner.mint(parseInt(coinSent),address);
+  
+
+
+  if(selectedCoin1 == "Select a coin" || selectedCoin2 == "Select a coin"){
+    console.log("Please select a coin to swap")
+    // alert("Please select a coin to swap");
+  }
+  else{
+    // find which direction the person is swapping in
+    if (selectedCoin1 == selectedCoin2){
+      console.log("You cannot swap the same token with itself")
+    }
+    else{
+      if(selectedCoin1 == 'ETH'){
+        // checking if valid amount send
+        if(coinSent > totalETHLiquidity ){
+          setErrorMessage("Sorry, the pool has less than your sent amount of ETH");
+        }
+      }
+      if(selectedCoin1 == 'BNB'){
+        // checking if valid amount send
+        if(coinSent > totalBNBLiquidity ){
+          setErrorMessage("Sorry, the pool has less than your sent amount of BNB");
+        }
+      }
+      
+      // all conditions satisfied. Now we can ATTEMPT to swap the tokens
+      // would need to read contract to make sure we have valid conditions for swap in THAT regard too, to be done
+      // later
+      // *****HERE GOES THE ABOVE DESCRIBED STUFF*****
+      //
+      // *****HERE GOES THE ABOVE DESCRIBED STUFF*****
+      // After checking that set the direction of the swap
+      if (selectedCoin1 == 'ETH' && selectedCoin2 == 'BNB'){
+        // Swap ETH to BNB
+        // This is where the contract call would go
+        console.log("Swapping ETH to BNB")
+        console.log("amount of coin sent: " + coinSent)
+        console.log("address: " + address)
+        try {
+          await BlockSwapContractWithSigner.swapETHForBNB(address, parseInt(coinSent));
+          displayErrorMessage("Token Swap Successful");
+        } catch (error) {
+          console.error("An error occurred while swapping ETH for BNB:", error);
+          if (error.data && error.data.message) {
+            console.error("Error message: ", error.data.message);
+            // Display the error message to the user
+            // Replace 'displayErrorMessage' with your function to display the error message to the user
+            displayErrorMessage(error.data.message);
           }
-          else if (selectedCoin1 == 'BNB' && selectedCoin2 == 'ETH'){
-            // Swap BNB to ETH
-            // This is where the contract call would go
-            console.log("Swapping BNB to ETH")
-            console.log("amount of coin sent: " + coinSent)
-            BlockSwapContract.swapBNBToETH(coinSent);
+        }
+      }
+      else if (selectedCoin1 == 'BNB' && selectedCoin2 == 'ETH'){
+        // Swap BNB to ETH
+        // This is where the contract call would go
+        console.log("Swapping BNB to ETH")
+        console.log("amount of coin sent: " + coinSent)
+        console.log("address: " + address)
+        try {
+          await BlockSwapContractWithSigner.swapBNBForETH(address, parseInt(coinSent));
+          displayErrorMessage("Token Swap Successful");
+        } catch (error) {
+          console.error("An error occurred while swapping BNB for ETH:", error);
+          if (error.data && error.data.message) {
+            console.error("Error message: ", error.data.message);
+            // Display the error message to the user
+            // Replace 'displayErrorMessage' with your function to display the error message to the user
+            displayErrorMessage(error.data.message);
           }
         }
       }
     }
   }
+}
+}
+    const [coinReceivedValue, setCoinReceivedValue] = useState('null');
+
+    useEffect(() => {
+      const fetchCoinReceived = async () => {
+        const result = await coinReceived;
+        setCoinReceivedValue(result);
+      };
+
+      fetchCoinReceived();
+    }, [coinReceived]);
+
     return (
       <TotalParent>
+      {/* <QueryClientProvider client = {queryClient}> */}
       <NavBar />
       <Background/>
       <MainContainer>
@@ -136,7 +307,7 @@ function Swap (){
           <TokenToReceive>
             <TokenSubdivider>
               <TextField>You receive</TextField>
-              <InputField placeholder="TBD"></InputField>
+              <ReceiveField  placeholder = "here"> {coinReceivedValue} </ReceiveField>
               <br />
             </TokenSubdivider>
             <SelectToken> 
@@ -152,15 +323,32 @@ function Swap (){
               </SelectToken>
           </TokenToReceive>
 
-          <SwapTokens onClick = {() => handleSwap()}>Swap!</SwapTokens>
+          <SwapTokens onClick = { async () => {
+            await handleSwap();
+            }}>Swap!</SwapTokens>
+          {/* <Web3Button 
+          contractAddress = "0x91b3E9aD5e6F5ac39d958A7Dff32DE0c7E029B86"
+          action ={async (contract ) =>{
+            await handleSwap(contract);
+            
+          }}
+          ></Web3Button> */}
           {/* <ConnectWallet/> */}
         </SwapContainer>
         <div style={{ height: "100px" }}></div>
+        <ErrorBox> {errorMessage} </ErrorBox>
       </MainContainer>
+      {/* </QueryClientProvider>  */}
       </TotalParent>
     );
 }
 
+const ErrorBox = styled.div`
+padding: 10px;
+border: 1px solid white;
+border-radius: 10px;
+
+`
 const TotalParent = styled.div`
 overflow-x: hidden;
 overflow-y: hidden;
@@ -275,6 +463,22 @@ font-weight: 500;
 const InputField = styled.input`
   margin-top: 10px;
   width: 50%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px; // Add this line
+  color: grey; // Add this line
+  background-color: inherit; // Add this line
+  font-size: 20px;
+  &:hover {
+    box-shadow: 0 0 5px white; // Add this line
+  }
+
+  
+`;
+const ReceiveField = styled.div`
+  margin-top: 10px;
+  width: 50%;
+  height: 20px;
   padding: 5px;
   border: none;
   border-radius: 5px; // Add this line

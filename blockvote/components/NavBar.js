@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import link from 'next/link'
-import {ConnectWallet} from '@thirdweb-dev/react'
+import { ConnectWallet} from '@thirdweb-dev/react'
 
 
 
@@ -30,9 +30,6 @@ const NavBar = () => {
           <NavElement>
               <StyledLink href="/swap">Swap</StyledLink>
           </NavElement>
-          <NavElement>
-              <StyledLink href="/">Explore</StyledLink>
-          </NavElement> 
           <NavElementConnect>Connect Wallet</NavElementConnect>
           {/* <ConnectWallet
             // client={clien?t}
