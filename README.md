@@ -1,7 +1,7 @@
 # BlockSwap
 [BlockSwap](https://blockswap-sandy.vercel.app/)
 
-### Blockswap is a web3 based cryptocurrency swapping application. It was developed in Solidity for the contracts, and React for the front-end development. This site is a dive into develpoing blockchain applications. and I can confidently say that Solidity is a very difficult language to use. 
+### Blockswap is a web3 based cryptocurrency swapping application. The smart contracts were developed in the Solidity language, and React for the front-end development. This site is a dive into develpoing blockchain applications. and I can confidently say that Solidity is a very difficult language to use. 
 
 ### The site requires a metamask account to use, and BNB testcoin. The functionality is limited to Ethereum and BNB swapping, but theoretically the contract would be able to support other transactions if a valid liquidity pool is set up. 
 
